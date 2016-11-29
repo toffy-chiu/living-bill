@@ -1,0 +1,33 @@
+a{
+    touch-action: none;
+}
+.views{
+    background: #eee;
+}
+.container-scrollable{
+    overflow-y: auto;
+}
+.text-truncate {
+    word-wrap: normal; /* for IE */
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.loading{
+    text-align: center;
+    padding-top:50%;
+}
+.nav-badge{
+    border-radius: 8px;
+    padding: 8px 10px;
+    color: #FFF;
+    font-size: 14px;
+    box-shadow: 0 0 5px #666;
+}
+.nav-badge-label{
+    margin-left: 5px;
+    vertical-align: middle;
+}
+.tabbar-label{
+    font-size: 14px;
+}
