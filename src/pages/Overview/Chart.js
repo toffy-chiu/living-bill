@@ -9,6 +9,9 @@ require('echarts/lib/component/legend');
 var typeInfo=require('../../config/typeInfo');
 
 var Chart = React.createClass({
+    //因为echarts不支持隐藏类目，故以原始的类目作为模板再进行过滤来达到同样目的
+    originalLabels:[],
+    originalSeries:[],
     propTypes:{
         data:React.PropTypes.object
     },
@@ -20,6 +23,12 @@ var Chart = React.createClass({
             this.paintChart(nextProps.data);
         }
     },
+    /**
+     * 计算Y轴最小值
+     * @param option
+     * @param selected
+     * @returns {*}
+     */
     calculateMinAxis:function(option, selected){
         //当前可见的系列名
         var visibleSeriesName=[];
@@ -55,6 +64,69 @@ var Chart = React.createClass({
         option.yAxis[0].min=min;
         return option;
     },
+    /**
+     * 过滤那些值都为0的类目
+     * @param option
+     * @param selected
+     * @returns {*}
+     */
+    filterZeroSeries:function(option, selected){
+        //当前可见的系列名
+        var visibleSeriesName=[];
+        for(var name in selected){
+            if(selected[name]){
+                visibleSeriesName.push(name);
+            }
+        }
+
+        //都复制一份进行操作
+        var labels=this.originalLabels.concat();
+        var series=this.originalSeries.concat();
+        var totalData=[];
+        var visibleSeries=series.filter(function(o){
+            return ~visibleSeriesName.indexOf(o.name);
+        });
+        labels.forEach(function(l, i){
+            totalData[i]=0;
+            visibleSeries.forEach(function(o){
+                totalData[i]+=o.data[i];
+            });
+        });
+
+        //需要去除的index
+        var removedIndex=[];
+        totalData.forEach(function(o, i){
+            //都等于0的“柱子”去掉
+            if(o==0){
+                removedIndex.push(i);
+            }
+        });
+
+        if(removedIndex.length) {
+            //把都等于0的那一列挑掉
+            labels=labels.filter(function(o, i){
+                return !~removedIndex.indexOf(i);
+            });
+
+            series=series.map(function (s) {
+                //复制对象，否则操作原对象会对this.originalSeries造成影响
+                var o=Object.assign({}, s);
+                o.data = o.data.filter(function (o, i) {
+                    return !~removedIndex.indexOf(i);
+                });
+                return o;
+            });
+        }
+
+        option.xAxis[0].data=labels;
+        option.series=series;
+
+        return option;
+    },
+    /**
+     * 画图
+     * @param data
+     */
     paintChart:function(data){
         /*data=require('mockjs').mock({
             'ds|8':[{
@@ -69,7 +141,7 @@ var Chart = React.createClass({
         var legendSelected={};
         data.ds.forEach(function(o){
             types.push(o.type);
-            legendSelected[typeInfo[o.type].name]=o.type==='LOAN';
+            legendSelected[typeInfo[o.type].name]=false;
             ds.push({
                 name:typeInfo[o.type].name,
                 type:'bar',
@@ -103,9 +175,14 @@ var Chart = React.createClass({
                 }
             }
         });
+        legendSelected['TOTAL']=true;
 
         // 基于准备好的dom，初始化echarts实例
         var myChart = echarts.init(this.refs.main);
+
+        //初始化
+        this.originalLabels=data.label.map(function(date){return +date.split('-')[1]+'月';});
+        this.originalSeries=ds;
 
         // 绘制图表
         var opt={
@@ -128,7 +205,7 @@ var Chart = React.createClass({
             xAxis : [
                 {
                     type : 'category',
-                    data : data.label.map(function(date){return +date.split('-')[1]+'月';})
+                    data : this.originalLabels.concat()
                 }
             ],
             yAxis : [
@@ -136,16 +213,18 @@ var Chart = React.createClass({
                     type : 'value'
                 }
             ],
-            series: ds
+            series: this.originalSeries.concat()
         };
 
         opt=this.calculateMinAxis(opt, legendSelected);
+        opt=this.filterZeroSeries(opt, legendSelected);
 
         myChart.setOption(opt);
 
         myChart.on('legendselectchanged', function(e){
             var option=myChart.getOption();
             option=this.calculateMinAxis(option, e.selected);
+            option=this.filterZeroSeries(option, e.selected);
             myChart.setOption(option);
         }.bind(this));
     },

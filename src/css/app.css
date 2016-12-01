@@ -2,7 +2,7 @@ a{
     touch-action: none;
 }
 .views{
-    background: #eee;
+    background: #ddd;
 }
 .container-scrollable{
     overflow-y: auto;

@@ -52,12 +52,17 @@ module.exports=React.createClass({
     },
     handleSubmit:function(e){
         e.preventDefault();
-        if(this.state.isNew) {
-            db.add(db.TABLE_BILL, this.state.data);
+
+        if(this.state.data.amount>0) {
+            if (this.state.isNew) {
+                db.add(db.TABLE_BILL, this.state.data);
+            } else {
+                db.save(db.TABLE_BILL, this.props.params.id, this.state.data);
+            }
+            location.hash = '/detail/' + this.props.params.type;
         }else{
-            db.save(db.TABLE_BILL, this.props.params.id, this.state.data);
+            alert('请输入合法的消费金额');
         }
-        location.hash = '/detail/'+this.props.params.type;
     },
     /**
      * 删除
@@ -96,7 +101,7 @@ module.exports=React.createClass({
                                     <div className="item-main">
                                         <label className="field-container">
                                             <span className="field-label">缴费金额：</span>
-                                            <input type="number" min="0" name="amount" value={this.state.data.amount} onChange={this.handleChange} placeholder="请输入消费金额" className="field" required/>
+                                            <input type="text" min="0" name="amount" value={this.state.data.amount} onChange={this.handleChange} placeholder="请输入消费金额" className="field" required/>
                                         </label>
                                     </div>
                                 </li>

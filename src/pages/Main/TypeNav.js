@@ -15,8 +15,8 @@ var TypeNav = React.createClass({
                         types.map(function(type, i){
                             return (
                                 <Link key={i} to={`/detail/${type}`} className="col padding-xs">
-                                    <div className="nav-badge" style={{background:typeInfo[type].color}}>
-                                        <Icon name={typeInfo[type].icon} color="white" style={{verticalAlign:'top'}}/>
+                                    <div className="nav-badge" style={{background:'#444',color:typeInfo[type].color}}>
+                                        <Icon name={typeInfo[type].icon} color={typeInfo[type].color} style={{verticalAlign:'top'}}/>
                                         <span className="nav-badge-label">{typeInfo[type].name}</span>
                                     </div>
                                 </Link>
