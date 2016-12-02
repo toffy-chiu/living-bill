@@ -108,7 +108,7 @@ module.exports=React.createClass({
             }
             return (
                 <div className="container container-fill container-column">
-                    <NavBar title={`总览（共 ${total} 元）`} leftNav={{}} />
+                    <NavBar title={`总览（共 ${+total.toFixed(2)} 元）`} leftNav={{}} />
                     <div className="views">
                         <div className="view">
                             <div className="container container-fill container-scrollable">

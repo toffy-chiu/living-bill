@@ -59,7 +59,7 @@ module.exports=React.createClass({
                                                     <li key={i} className="item item-linked">
                                                         <Link to={`/edit/${this.props.params.type}/${o.id}`} style={{display:'flex',alignItems:'center'}}>
                                                             <div className="text-center" style={{lineHeight:1,borderRight:'1px solid #ccc',paddingRight:10,marginRight:10}}>
-                                                                <small>{o.year}-{o.month}-{o.day}</small>
+                                                                <small>{o.year}-{o.month<10?`0${o.month}`:o.month}-{o.day<10?`0${o.day}`:o.day}</small>
                                                             </div>
                                                             <Icon name={o.icon} color={o.color} size="30"/>
                                                             <strong

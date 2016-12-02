@@ -108,8 +108,8 @@ module.exports=React.createClass({
                                 <li className="item item-input">
                                     <div className="item-main">
                                         <label className="field-container">
-                                            <span className="field-label">备　　注：</span>
-                                            <input type="text" name="remark" value={this.state.data.remark} onChange={this.handleChange} placeholder="备注内容" className="field"/>
+                                            <span className="field-label" style={{minHeight:'5rem',paddingTop:'0.45rem'}}>备　　注：</span>
+                                            <textarea name="remark" value={this.state.data.remark} onChange={this.handleChange} placeholder="备注内容" className="field"/>
                                         </label>
                                     </div>
                                 </li>

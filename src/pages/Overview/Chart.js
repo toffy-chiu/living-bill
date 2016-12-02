@@ -210,7 +210,12 @@ var Chart = React.createClass({
             ],
             yAxis : [
                 {
-                    type : 'value'
+                    type : 'value',
+                    axisLabel:{
+                        formatter:function(val){
+                            return Math.round(val);
+                        }
+                    }
                 }
             ],
             series: this.originalSeries.concat()
