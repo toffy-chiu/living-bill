@@ -44,16 +44,26 @@ module.exports=React.createClass({
         if(this.state.loading){
             return <Loader/>
         }else {
+            var list=this.state.list;
+
+            //计算总数
+            var total=0;
+            list.forEach(function(o){
+                total+=+o.amount;
+            });
+            total=+total.toFixed(2);
+
             return (
-                <div className="container">
-                    <NavBar title={`【${typeInfo[this.props.params.type].name}】明细`} leftNav={{}} rightNav={{icon:'plus',href:`/edit/${this.props.params.type}`}}/>
-                    <div className="margin-0 group group-no-padded">
-                        <div className="group-body">
+                <div className="container container-column container-fill">
+                    <div className="view">
+                        <NavBar title={`【${typeInfo[this.props.params.type].name}】明细`} leftNav={{}} rightNav={{icon:'plus',href:`/edit/${this.props.params.type}`}}/>
+                        <div className="item item-header">小计：{total} 元</div>
+                        <div className="container container-scrollable container-fill">
                             {
-                                this.state.list.length ? (
-                                    <ul className="list">
+                                list.length ? (
+                                    <ul className="list touch-auto margin-0">
                                         {
-                                            this.state.list.map(function (o, i) {
+                                            list.map(function (o, i) {
                                                 o = this.getItem(o);
                                                 return (
                                                     <li key={i} className="item item-linked">

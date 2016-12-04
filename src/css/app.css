@@ -1,6 +1,9 @@
 a{
     touch-action: none;
 }
+.touch-auto a{
+    touch-action: auto;
+}
 .views{
     background: #ddd;
 }

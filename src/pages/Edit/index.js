@@ -84,8 +84,8 @@ module.exports=React.createClass({
                     <NavBar title={this.state.isNew?'新增记录':'编辑记录'} leftNav={{href:`/detail/${this.props.params.type}`}} />
                     <div className="group group-no-padded margin-0">
                         <header className="group-header">
-                            <Icon name={info.icon}/>
-                            <span>{info.name}</span>
+                            <Icon name={info.icon} color={info.color} style={{marginBottom:-6}}/>
+                            <span style={{color:info.color,fontSize:'1.2rem'}}>{info.name}</span>
                         </header>
                         <div className="group-body">
                             <ul className="list">
