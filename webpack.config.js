@@ -11,7 +11,7 @@ module.exports = {
         app: isProd?[
             './src/app'
         ]:[
-            'webpack-dev-server/client?http://0.0.0.0:3001',
+            'webpack-dev-server/client?http://0.0.0.0:3000',
             'webpack/hot/only-dev-server',
             './src/app'
         ],

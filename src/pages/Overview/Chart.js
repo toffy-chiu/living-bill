@@ -41,7 +41,7 @@ var Chart = React.createClass({
 
         //当前可见的系列
         var allValues=[];
-        this.originalSeries.forEach(function(o){
+        option.series.forEach(function(o){
             if(~visibleSeriesName.indexOf(o.name)){
                 //同时获得该系列的所有值，供下面计算使用
                 allValues=allValues.concat(o.data);
@@ -219,15 +219,15 @@ var Chart = React.createClass({
             series: this.originalSeries.concat()
         };
 
-        opt=this.calculateMinAxis(opt, legendSelected);
         opt=this.filterZeroSeries(opt, legendSelected);
+        opt=this.calculateMinAxis(opt, legendSelected);
 
         myChart.setOption(opt);
 
         myChart.on('legendselectchanged', function(e){
             var option=myChart.getOption();
-            option=this.calculateMinAxis(option, e.selected);
             option=this.filterZeroSeries(option, e.selected);
+            option=this.calculateMinAxis(option, e.selected);
             myChart.setOption(option);
         }.bind(this));
     },
