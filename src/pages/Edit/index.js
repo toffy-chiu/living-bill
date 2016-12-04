@@ -101,7 +101,7 @@ module.exports=React.createClass({
                                     <div className="item-main">
                                         <label className="field-container">
                                             <span className="field-label">缴费金额：</span>
-                                            <input type="text" min="0" name="amount" value={this.state.data.amount} onChange={this.handleChange} placeholder="请输入消费金额" className="field" required/>
+                                            <input type="number" min="0" step="0.01" name="amount" value={this.state.data.amount} onChange={this.handleChange} placeholder="请输入消费金额" className="field" required/>
                                         </label>
                                     </div>
                                 </li>

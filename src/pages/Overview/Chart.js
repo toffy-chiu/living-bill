@@ -1,3 +1,4 @@
+var objectAssign=require('tf-utils/lib/objectAssign');
 // 引入 ECharts 主模块
 var echarts = require('echarts/lib/echarts');
 // 引入柱状图
@@ -40,13 +41,10 @@ var Chart = React.createClass({
 
         //当前可见的系列
         var allValues=[];
-        var visibleSeries=option.series.filter(function(o){
+        this.originalSeries.forEach(function(o){
             if(~visibleSeriesName.indexOf(o.name)){
                 //同时获得该系列的所有值，供下面计算使用
                 allValues=allValues.concat(o.data);
-                return true;
-            }else{
-                return false;
             }
         });
 
@@ -110,7 +108,7 @@ var Chart = React.createClass({
 
             series=series.map(function (s) {
                 //复制对象，否则操作原对象会对this.originalSeries造成影响
-                var o=Object.assign({}, s);
+                var o=objectAssign({}, s);
                 o.data = o.data.filter(function (o, i) {
                     return !~removedIndex.indexOf(i);
                 });
