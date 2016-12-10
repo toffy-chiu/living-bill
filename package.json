@@ -1,6 +1,6 @@
 {
   "name": "living-bill",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "记录日常生活缴费状况",
   "main": "index.js",
   "scripts": {

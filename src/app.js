@@ -12,48 +12,20 @@ require('./css/app.css');
 
 //首页
 var Main=require('./pages/Main');
-
-//编辑页
-var Edit=function(location, cb){
-    require.ensure([], function(require){
-        //cb(error, value);
-        cb(null, require('./pages/Edit'));
-    }, 'edit');
-};
-
-//当月明细
-var Detail=function(location, cb){
-    require.ensure([], function(require){
-        //cb(error, value);
-        cb(null, require('./pages/Detail'));
-    }, 'detail');
-};
-
-//花销总览
-var Overview=function(location, cb){
-    require.ensure([], function(require){
-        //cb(error, value);
-        cb(null, require('./pages/Overview'));
-    }, 'overview');
-};
-
-//设置
-var Setting=function(location, cb){
-    require.ensure([], function(require){
-        //cb(error, value);
-        cb(null, require('./pages/Setting'));
-    }, 'setting');
-};
+var Edit=require('./pages/Edit');
+var Detail=require('./pages/Detail');
+var Overview=require('./pages/Overview');
+var Setting=require('./pages/Setting');
 
 ReactDOM.render(
     <Router history={hashHistory}>
         <Route path="/">
             <IndexRoute component={Main}/>
             <Route path="/index" component={Main}/>
-            <Route path="/edit/:type(/:id)" getComponent={Edit}/>
-            <Route path="/detail/:type" getComponent={Detail}/>
-            <Route path="/overview" getComponent={Overview}/>
-            <Route path="/setting" getComponent={Setting}/>
+            <Route path="/edit/:type(/:id)" component={Edit}/>
+            <Route path="/detail/:type" component={Detail}/>
+            <Route path="/overview" component={Overview}/>
+            <Route path="/setting" component={Setting}/>
         </Route>
     </Router>
     ,
